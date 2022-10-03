@@ -1,0 +1,163 @@
+// Deck03.java     12-26-14
+// The <display> method is now replaced by the <toString> method.
+// This version is implemented with "dynamic arrays".
+// ********************************************************************
+// The "Elevens" AP Lab is created for the College Board APCS
+// curriculum by Michael Clancy, Robert Glen Martin and Judith Hromcik.
+// Leon Schram has altered this "Elevens" AP Lab file to focus on 
+// CS topics as the "Elevens" Lab is integrated into the curriculum.
+
+
+
+import java.util.*;
+
+public class Deck extends AbstractDeck
+{
+
+	public Deck(ArrayList<Card> deck)
+	{
+		super(deck);
+		Scanner sc= new Scanner(System.in);
+		System.out.println(getCards());
+		System.out.println("Would you like to reshuffle? Y/N");
+		if(sc.next().equals("Y"))
+		{
+			shuffle(getCards());
+		}
+	}
+
+	public void shuffle(ArrayList<Card> deck)
+	{
+		System.out.println("Shuffled again");
+	}
+
+	public String toString()
+	{
+		String temp = "";
+		for (int k = 0; k < getSize(); k++)
+			temp = temp + getCards().get(k).toString() + "\n";
+		return temp;
+	}
+
+}
+
+interface DeckInterface
+{
+	final public String[] suits = new String[4];
+	final public String[] ranks = new String[13];
+	final public int[] values = new int[13];
+	public String toString();
+	public void shuffle(ArrayList<Card> deck);
+}
+
+abstract class AbstractDeck implements DeckInterface
+{
+	private ArrayList<Card> cards;
+	private int size;
+
+	public AbstractDeck(ArrayList<Card> deck)
+	{
+		cards = deck;
+		size = deck.size();
+		shuffle(cards);
+	}
+
+	public int getSize()
+	{
+		return size;
+	}
+
+	public ArrayList getCards()
+	{
+		return cards;
+	}
+
+	public void shuffle(ArrayList<Card> deck)
+	{
+		System.out.println("Shuffled");
+	}
+}
+
+// Card.java     12-26-14
+// This is the "unit" class that stores information about a single card.
+// *********************************************************************
+// The "Elevens" AP Lab is created for the College Board APCS
+// curriculum by Michael Clancy, Robert Glen Martin and Judith Hromcik.
+// Leon Schram has altered this "Elevens" AP Lab file to focus on
+// CS topics as the "Elevens" Lab is integrated into the curriculum.
+
+interface CardInterface
+{
+   public String getSuit();
+   public String getRank();
+   public int getValue();
+   public void setSuit(String s);
+   public void setRank(String s);
+   public void setValue(int i);
+   public String toString();
+   public boolean matches(Card otherCard);
+}
+
+abstract class AbstractCard implements CardInterface
+{
+   private String suit;
+   private String rank;
+   private int value;
+
+   public AbstractCard(String s, String r, int v)
+   {
+      suit = s;
+      rank = r;
+      value = v;
+   }
+
+   public String getSuit()
+   {
+      return suit;
+   }
+
+   public String getRank()
+   {
+      return rank;
+   }
+   public int getValue()
+   {
+      return value;
+   }
+
+   public void setSuit(String s)
+   {
+      suit=s;
+   }
+
+   public void setRank(String s)
+   {
+      rank=s;
+   }
+   public void setValue(int i)
+   {
+      value = i;
+   }
+
+   public abstract boolean matches(Card otherCard);
+
+   public abstract String toString();
+}
+
+public class Card extends AbstractCard
+{
+   public Card(String s, String r, int v)
+   {
+      super(s,r,v);
+   }
+
+   public boolean matches(Card otherCard)
+   {
+		return otherCard.getSuit().equals(this.getSuit()) && otherCard.getRank().equals(this.getRank()) && otherCard.getValue() == this.getValue();
+   }
+
+   public String toString()
+   {
+      return "[" + getSuit() + ", " + getRank() + ", " + getValue() + "]";
+   }
+}
